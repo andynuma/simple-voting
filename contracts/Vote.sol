@@ -5,23 +5,25 @@ import "./Owned.sol";
 
 contract Vote is Owned{
 
-    address[] voters;
+    // confirmed voters
+    address[] public voters;
 
     // voterAddr => vote text
-    mapping (address => bytes) voterToVote;
+    mapping (address => bytes)  public voterToVote;
 
     // voterAddr => vote count
-    mapping (address => uint) voterAddressToCount;
+    mapping (address => uint)  public voterAddressToCount;
 
-    //result
-    bytes[] result;
+    //voting result
+    bytes[] public result;
+
 
     constructor() {
         ownerAddr = msg.sender;
     }
 
     function setVoterAddr(address _voterAddr) public onlyOwner{
-        voters.push(msg.sender);
+        voters.push(_voterAddr);
     }
 
     function checkVoterAddr(address _voterAddr) public returns(bool){
@@ -34,12 +36,15 @@ contract Vote is Owned{
     }
 
     function createVote(bytes _vote) public {
+        require(checkVoterAddr(msg.sender) == true);
+        require(voterAddressToCount[msg.sender] == 0);
         voterToVote[msg.sender] = _vote;
     }
 
     function sendVote() public{
         require(checkVoterAddr(msg.sender) == true);
-        result.push(voterToVote[msg.sender]);
+        bytes memory myVote = voterToVote[msg.sender];
+        result.push(myVote);
     }
 
     function viewResult() view public returns(bytes[]){
