@@ -17,6 +17,12 @@ contract Vote is Owned{
     //voting result
     bytes[] public result;
 
+    // create vote event
+    event Create(address from);
+
+    // send vote event
+    event Send(address from);
+
 
     constructor() {
         ownerAddr = msg.sender;
@@ -39,12 +45,16 @@ contract Vote is Owned{
         require(checkVoterAddr(msg.sender) == true);
         require(voterAddressToCount[msg.sender] == 0);
         voterToVote[msg.sender] = _vote;
+
+        emit Create(msg.sender);
     }
 
     function sendVote() public{
         require(checkVoterAddr(msg.sender) == true);
         bytes memory myVote = voterToVote[msg.sender];
         result.push(myVote);
+
+        emit Send(msg.sender);
     }
 
     function viewResult() view public returns(bytes[]){
