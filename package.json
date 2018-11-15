@@ -1,0 +1,29 @@
+{
+  "name": "simple_evoting",
+  "version": "1.0.0",
+  "description": "A Simple voting system on Ethereum.",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "dev": "next client",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andynuma/simple-voting.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andynuma/simple-voting/issues"
+  },
+  "homepage": "https://github.com/andynuma/simple-voting#readme",
+  "dependencies": {
+    "next": "^7.0.2",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "web3": "^1.0.0-beta.36"
+  }
+}
