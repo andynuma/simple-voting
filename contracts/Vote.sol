@@ -23,7 +23,6 @@ contract Vote is Owned{
     // send vote event
     event Send(address from);
 
-
     constructor() {
         ownerAddr = msg.sender;
     }

@@ -7,8 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "dev": "next client",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "npm run artifacts && next client",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "artifacts": "cp -r ./build/contracts/ ./client/web3/artifacts"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,8 @@
     "next": "^7.0.2",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
+    "sol-trace": "^0.1.3",
+    "truffle-contract": "^3.0.6",
     "web3": "^1.0.0-beta.36"
   }
 }

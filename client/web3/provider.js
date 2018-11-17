@@ -1,4 +1,11 @@
 import Web3 from "web3"
+import contract from "truffle-contract"
+
+export const getInstance = artifact => {
+    const contractObj = contract(artifact)
+    contractObj.setProvider(provider())
+    return contractObj.deployed()
+}
 
 const provider = () => {
     // If the user has MetaMask:

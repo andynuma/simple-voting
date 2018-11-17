@@ -1,3 +1,6 @@
+// import { injectInTruffle } from "sol-trace";
+// injectInTruffle(web3, artifacts);
+
 const Vote = artifacts.require("../contracts/Vote.sol")
 
 contract("Vote",(accounts) => {    
