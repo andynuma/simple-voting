@@ -27,21 +27,25 @@ contract Vote is Owned{
         ownerAddr = msg.sender;
     }
 
-    function setVoterAddr(address _voterAddr) public onlyOwner{
-        voters.push(_voterAddr);
-    }
+    // function setVoterAddr(address _voterAddr) public onlyOwner{
+    //     voters.push(_voterAddr);
+    // }
 
-    function checkVoterAddr(address _voterAddr) public returns(bool){
-        for(uint i = 0; i < voters.length; i++){
-            if(voters[i] == _voterAddr){
-                return true;
-            }
-        }
-        return false;
+    // function checkVoterAddr(address _voterAddr) public returns(bool){
+    //     for(uint i = 0; i < voters.length; i++){
+    //         if(voters[i] == _voterAddr){
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+
+    function test(uint _testAddr) public returns(uint){
+        return _testAddr;
     }
 
     function createVote(bytes _vote) public {
-        require(checkVoterAddr(msg.sender) == true);
+        // require(checkVoterAddr(msg.sender) == true);
         require(voterAddressToCount[msg.sender] == 0);
         voterToVote[msg.sender] = _vote;
 
@@ -49,7 +53,7 @@ contract Vote is Owned{
     }
 
     function sendVote() public{
-        require(checkVoterAddr(msg.sender) == true);
+        // require(checkVoterAddr(msg.sender) == true);
         bytes memory myVote = voterToVote[msg.sender];
         result.push(myVote);
 

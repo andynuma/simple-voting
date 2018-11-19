@@ -15,14 +15,104 @@ export const getOwnerInfo = async()  => {
   return ownerProfile
 }
 
+//function 型
 export const setVoterAddr = async(address) => {
-  //TODO:どうやってownerAddrを与える？
-  const result =  await storage.setVoterAddr(
-    address,
+  const storage = await getInstance(Vote)
+  const addresses = await eth.getAccounts()
+  await storage.setVoterAddr(
+    //TODO:Ganacheにあるアカウントでは実行できるけど，テストネットのアカウントで実行する場合には
+    // 引数にaddressを入れて実行できるか不明
+    // address
+    addresses[2],
   {
-    // ownerAddrを与えるべき or そのままエラーを出せば良いのか
-    from:address[0]
+     from:eth.accounts[0]
+  }
+)}
+
+export const test = async(value)  => {
+  const storage = await getInstance(Vote)
+  const addresses = await eth.getAccounts()
+  // console.log(eth.getAccounts())
+  const tx = await storage.test(
+    value,
+  {
+    from:addresses[0],
   })
 
-  return result
+  return tx
 }
+
+export const createVote = async(vote)  => {
+  const storage = await getInstance(Vote)
+  const addresses = await eth.getAccounts()
+  // console.log(eth.getAccounts())
+  await storage.createVote(vote,{from:addresses[0]})
+  // console.log(vote)
+}
+
+
+// export class SetVoterAddr extends React.Component{
+//   constructor(props){
+//     super(props);
+//     this.state = {value:''};
+//     this.handleChange = this.handleChange.bind(this);
+//     this.handleSubmit = this.handleSubmit.bind(this);
+//   }
+
+//   async handleChange(event){
+//     this.setState({value:event.target.value});
+//   }
+
+//   async handleSubmit(event){
+//     console.log("An address was submitted:" + this.state.value);
+//     event.preventDefault();
+//     await setVoterAddr(this.state.value)
+//     // console.log(await test(this.state.value))
+//   }
+
+//   render(){
+//     return(
+//       <form onSubmit={this.handleSubmit}>
+//         <label>
+//           Voter Address:
+//           <input type="text" value={this.state.value} onChange={this.handleChange}/>
+//         </label>
+//         <input type="submit" value="Submit"/>
+//       </form>
+//     )
+//   }
+// }
+
+
+export class CreateVote extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {value:''};
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  async handleChange(event){
+    this.setState({value:event.target.value});
+  }
+
+  async handleSubmit(event){
+    console.log("Vote was Created:" + this.state.value);
+    event.preventDefault();
+    await createVote(this.state.value)
+    // console.log(await test(this.state.value))
+  }
+
+  render(){
+    return(
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Voter Address:
+          <input type="text" value={this.state.value} onChange={this.handleChange}/>
+        </label>
+        <input type="submit" value="Submit"/>
+      </form>
+    )
+  }
+}
+
