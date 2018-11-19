@@ -1,10 +1,10 @@
 # simple-voting
 
-### run
-`npm init`  
-`npm install --save next react react-dom`  
-`npm run dev`  
-localhost:3000にアクセス
+### Run
+- `npm init`  
+- `npm install --save next react react-dom`  
+- `npm run dev`  
+- localhost:3000にアクセス
 
 ### package.json
 ```js
