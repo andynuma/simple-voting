@@ -1,7 +1,12 @@
 # simple-voting
+
+### run
 `npm init`  
 `npm install --save next react react-dom`  
+`npm run dev`  
+localhost:3000にアクセス
 
+### package.json
 ```js
   // package.json
   {
@@ -11,8 +16,5 @@
      "test": "echo \"Error: no test specified\" && exit 1"
    },
    // ...
- }```  
+ }``` 
  
-`npm run dev`
-
-localhost:3000にアクセス
