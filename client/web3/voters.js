@@ -15,32 +15,32 @@ export const getOwnerInfo = async()  => {
   return ownerProfile
 }
 
-//function 型
-export const setVoterAddr = async(address) => {
-  const storage = await getInstance(Vote)
-  const addresses = await eth.getAccounts()
-  await storage.setVoterAddr(
-    //TODO:Ganacheにあるアカウントでは実行できるけど，テストネットのアカウントで実行する場合には
-    // 引数にaddressを入れて実行できるか不明
-    // address
-    addresses[2],
-  {
-     from:eth.accounts[0]
-  }
-)}
+// //function 型
+// export const setVoterAddr = async(address) => {
+//   const storage = await getInstance(Vote)
+//   const addresses = await eth.getAccounts()
+//   await storage.setVoterAddr(
+//     //TODO:Ganacheにあるアカウントでは実行できるけど，テストネットのアカウントで実行する場合には
+//     // 引数にaddressを入れて実行できるか不明
+//     // address
+//     addresses[2],
+//   {
+//      from:eth.accounts[0]
+//   }
+// )}
 
-export const test = async(value)  => {
-  const storage = await getInstance(Vote)
-  const addresses = await eth.getAccounts()
-  // console.log(eth.getAccounts())
-  const tx = await storage.test(
-    value,
-  {
-    from:addresses[0],
-  })
+// export const test = async(value)  => {
+//   const storage = await getInstance(Vote)
+//   const addresses = await eth.getAccounts()
+//   // console.log(eth.getAccounts())
+//   const tx = await storage.test(
+//     value,
+//   {
+//     from:addresses[0],
+//   })
 
-  return tx
-}
+//   return tx
+// }
 
 export const createVote = async(vote)  => {
   const storage = await getInstance(Vote)
@@ -49,6 +49,20 @@ export const createVote = async(vote)  => {
   await storage.createVote(vote,{from:addresses[0]})
   // console.log(vote)
 }
+
+export const sendVote = async() => {
+  const storage = await getInstance(Vote)
+  const addresses = await eth.getAccounts()
+  await storage.sendVote({from:addresses[0]})
+}
+
+export const viewResult = async() => {
+  const storage = await getInstance(Vote)
+  const addresses = await eth.getAccounts()
+  const result =  await storage.viewResult({from:addresses[0]})
+  return result
+}
+
 
 
 // export class SetVoterAddr extends React.Component{
@@ -100,14 +114,13 @@ export class CreateVote extends React.Component{
     console.log("Vote was Created:" + this.state.value);
     event.preventDefault();
     await createVote(this.state.value)
-    // console.log(await test(this.state.value))
   }
 
   render(){
     return(
       <form onSubmit={this.handleSubmit}>
         <label>
-          Voter Address:
+          Input your vote:
           <input type="text" value={this.state.value} onChange={this.handleChange}/>
         </label>
         <input type="submit" value="Submit"/>
@@ -115,4 +128,7 @@ export class CreateVote extends React.Component{
     )
   }
 }
+
+
+
 

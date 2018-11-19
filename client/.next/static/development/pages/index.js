@@ -15783,6 +15783,88 @@ module.exports = {"modp1":{"gen":"02","prime":"ffffffffffffffffc90fdaa22168c234c
 
 /***/ }),
 
+/***/ "../node_modules/domain-browser/source/index.js":
+/*!******************************************************!*\
+  !*** ../node_modules/domain-browser/source/index.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// This file should be ES5 compatible
+/* eslint prefer-spread:0, no-var:0, prefer-reflect:0, no-magic-numbers:0 */
+
+
+module.exports = (function () {
+	// Import Events
+	var events = __webpack_require__(/*! events */ "../node_modules/events/events.js")
+
+	// Export Domain
+	var domain = {}
+	domain.createDomain = domain.create = function () {
+		var d = new events.EventEmitter()
+
+		function emitError (e) {
+			d.emit('error', e)
+		}
+
+		d.add = function (emitter) {
+			emitter.on('error', emitError)
+		}
+		d.remove = function (emitter) {
+			emitter.removeListener('error', emitError)
+		}
+		d.bind = function (fn) {
+			return function () {
+				var args = Array.prototype.slice.call(arguments)
+				try {
+					fn.apply(null, args)
+				}
+				catch (err) {
+					emitError(err)
+				}
+			}
+		}
+		d.intercept = function (fn) {
+			return function (err) {
+				if ( err ) {
+					emitError(err)
+				}
+				else {
+					var args = Array.prototype.slice.call(arguments, 1)
+					try {
+						fn.apply(null, args)
+					}
+					catch (err) {
+						emitError(err)
+					}
+				}
+			}
+		}
+		d.run = function (fn) {
+			try {
+				fn()
+			}
+			catch (err) {
+				emitError(err)
+			}
+			return this
+		}
+		d.dispose = function () {
+			this.removeAllListeners()
+			return this
+		}
+		d.enter = d.exit = function () {
+			return this
+		}
+		return d
+	}
+	return domain
+}).call(this)
+
+
+/***/ }),
+
 /***/ "../node_modules/elliptic/lib/elliptic.js":
 /*!************************************************!*\
   !*** ../node_modules/elliptic/lib/elliptic.js ***!
@@ -92509,6 +92591,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _web3_artifacts_Vote_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../web3/artifacts/Vote.json */ "./web3/artifacts/Vote.json");
 var _web3_artifacts_Vote_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../web3/artifacts/Vote.json */ "./web3/artifacts/Vote.json", 1);
 /* harmony import */ var _web3_voters__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../web3/voters */ "./web3/voters.js");
+/* harmony import */ var domain__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! domain */ "../node_modules/domain-browser/source/index.js");
+/* harmony import */ var domain__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(domain__WEBPACK_IMPORTED_MODULE_5__);
 
 var _jsxFileName = "/Users/andy/simple_evoting/client/pages/index.js";
 
@@ -92536,6 +92620,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -92584,6 +92669,54 @@ function (_React$Component) {
       }, _callee, this);
     })));
 
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "SendVote",
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return Object(_web3_voters__WEBPACK_IMPORTED_MODULE_4__["sendVote"])();
+
+            case 2:
+              console.log(_web3_voters__WEBPACK_IMPORTED_MODULE_4__["sendVote"]);
+
+            case 3:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    })));
+
+    _defineProperty(_assertThisInitialized(_assertThisInitialized(_this)), "viewResult",
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      var result;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return Object(_web3_voters__WEBPACK_IMPORTED_MODULE_4__["viewResult"])();
+
+            case 2:
+              result = _context3.sent;
+              console.log(result);
+
+            case 4:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3, this);
+    })));
+
     return _this;
   }
 
@@ -92598,31 +92731,31 @@ function (_React$Component) {
     value: function () {
       var _componentDidMount = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
         var storage, ownerAddr;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context2.next = 2;
+                _context4.next = 2;
                 return Object(_web3_provider__WEBPACK_IMPORTED_MODULE_2__["getInstance"])(_web3_artifacts_Vote_json__WEBPACK_IMPORTED_MODULE_3__);
 
               case 2:
-                storage = _context2.sent;
+                storage = _context4.sent;
                 console.log(storage);
-                _context2.next = 6;
+                _context4.next = 6;
                 return storage.ownerAddr.call();
 
               case 6:
-                ownerAddr = _context2.sent;
+                ownerAddr = _context4.sent;
                 console.log("Owner Address : ", ownerAddr);
 
               case 8:
               case "end":
-                return _context2.stop();
+                return _context4.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee4, this);
       }));
 
       return function componentDidMount() {
@@ -92635,23 +92768,37 @@ function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 34
+          lineNumber: 44
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
         onClick: this.logUser,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 35
+          lineNumber: 45
         },
         __self: this
       }, "Get Owner address"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_web3_voters__WEBPACK_IMPORTED_MODULE_4__["CreateVote"], {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 40
+          lineNumber: 50
         },
         __self: this
-      }));
+      }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        onClick: this.SendVote,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 52
+        },
+        __self: this
+      }, "Send Vote"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        onClick: this.viewResult,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 56
+        },
+        __self: this
+      }, "View Result"));
     }
   }]);
 
@@ -92732,15 +92879,15 @@ var eth = new web3__WEBPACK_IMPORTED_MODULE_0___default.a(provider()).eth;
 /*!************************!*\
   !*** ./web3/voters.js ***!
   \************************/
-/*! exports provided: getOwnerInfo, setVoterAddr, test, createVote, CreateVote */
+/*! exports provided: getOwnerInfo, createVote, sendVote, viewResult, CreateVote */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOwnerInfo", function() { return getOwnerInfo; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setVoterAddr", function() { return setVoterAddr; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "test", function() { return test; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createVote", function() { return createVote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sendVote", function() { return sendVote; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "viewResult", function() { return viewResult; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CreateVote", function() { return CreateVote; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "../node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
@@ -92815,14 +92962,37 @@ function () {
   return function getOwnerInfo() {
     return _ref.apply(this, arguments);
   };
-}(); //function 型
+}(); // //function 型
+// export const setVoterAddr = async(address) => {
+//   const storage = await getInstance(Vote)
+//   const addresses = await eth.getAccounts()
+//   await storage.setVoterAddr(
+//     //TODO:Ganacheにあるアカウントでは実行できるけど，テストネットのアカウントで実行する場合には
+//     // 引数にaddressを入れて実行できるか不明
+//     // address
+//     addresses[2],
+//   {
+//      from:eth.accounts[0]
+//   }
+// )}
+// export const test = async(value)  => {
+//   const storage = await getInstance(Vote)
+//   const addresses = await eth.getAccounts()
+//   // console.log(eth.getAccounts())
+//   const tx = await storage.test(
+//     value,
+//   {
+//     from:addresses[0],
+//   })
+//   return tx
+// }
 
-var setVoterAddr =
+var createVote =
 /*#__PURE__*/
 function () {
   var _ref2 = _asyncToGenerator(
   /*#__PURE__*/
-  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(address) {
+  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(vote) {
     var storage, addresses;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
       while (1) {
@@ -92839,11 +93009,8 @@ function () {
           case 5:
             addresses = _context2.sent;
             _context2.next = 8;
-            return storage.setVoterAddr( //TODO:Ganacheにあるアカウントでは実行できるけど，テストネットのアカウントで実行する場合には
-            // 引数にaddressを入れて実行できるか不明
-            // address
-            addresses[2], {
-              from: _provider__WEBPACK_IMPORTED_MODULE_2__["eth"].accounts[0]
+            return storage.createVote(vote, {
+              from: addresses[0]
             });
 
           case 8:
@@ -92854,17 +93021,17 @@ function () {
     }, _callee2, this);
   }));
 
-  return function setVoterAddr(_x) {
+  return function createVote(_x) {
     return _ref2.apply(this, arguments);
   };
 }();
-var test =
+var sendVote =
 /*#__PURE__*/
 function () {
   var _ref3 = _asyncToGenerator(
   /*#__PURE__*/
-  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(value) {
-    var storage, addresses, tx;
+  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+    var storage, addresses;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
@@ -92880,15 +93047,11 @@ function () {
           case 5:
             addresses = _context3.sent;
             _context3.next = 8;
-            return storage.test(value, {
+            return storage.sendVote({
               from: addresses[0]
             });
 
           case 8:
-            tx = _context3.sent;
-            return _context3.abrupt("return", tx);
-
-          case 10:
           case "end":
             return _context3.stop();
         }
@@ -92896,17 +93059,17 @@ function () {
     }, _callee3, this);
   }));
 
-  return function test(_x2) {
+  return function sendVote() {
     return _ref3.apply(this, arguments);
   };
 }();
-var createVote =
+var viewResult =
 /*#__PURE__*/
 function () {
   var _ref4 = _asyncToGenerator(
   /*#__PURE__*/
-  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(vote) {
-    var storage, addresses;
+  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+    var storage, addresses, result;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
@@ -92922,11 +93085,15 @@ function () {
           case 5:
             addresses = _context4.sent;
             _context4.next = 8;
-            return storage.createVote(vote, {
+            return storage.viewResult({
               from: addresses[0]
             });
 
           case 8:
+            result = _context4.sent;
+            return _context4.abrupt("return", result);
+
+          case 10:
           case "end":
             return _context4.stop();
         }
@@ -92934,7 +93101,7 @@ function () {
     }, _callee4, this);
   }));
 
-  return function createVote(_x3) {
+  return function viewResult() {
     return _ref4.apply(this, arguments);
   };
 }(); // export class SetVoterAddr extends React.Component{
@@ -93007,7 +93174,7 @@ function (_React$Component) {
         }, _callee5, this);
       }));
 
-      return function handleChange(_x4) {
+      return function handleChange(_x2) {
         return _handleChange.apply(this, arguments);
       };
     }()
@@ -93034,7 +93201,7 @@ function (_React$Component) {
         }, _callee6, this);
       }));
 
-      return function handleSubmit(_x5) {
+      return function handleSubmit(_x3) {
         return _handleSubmit.apply(this, arguments);
       };
     }()
@@ -93045,22 +93212,22 @@ function (_React$Component) {
         onSubmit: this.handleSubmit,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 108
+          lineNumber: 121
         },
         __self: this
       }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 109
+          lineNumber: 122
         },
         __self: this
-      }, "Voter Address:", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+      }, "Input your vote:", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "text",
         value: this.state.value,
         onChange: this.handleChange,
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 111
+          lineNumber: 124
         },
         __self: this
       })), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
@@ -93068,7 +93235,7 @@ function (_React$Component) {
         value: "Submit",
         __source: {
           fileName: _jsxFileName,
-          lineNumber: 113
+          lineNumber: 126
         },
         __self: this
       }));

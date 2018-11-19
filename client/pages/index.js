@@ -1,6 +1,7 @@
 import { eth, getInstance } from "../web3/provider"
 import Vote from "../web3/artifacts/Vote.json"
-import {getOwnerInfo,SetVoterAddr, CreateVote} from "../web3/voters"
+import {getOwnerInfo,SetVoterAddr, CreateVote,sendVote,viewResult} from "../web3/voters"
+import { create } from "domain";
 
 export default class IndexPage extends React.Component {
 
@@ -10,6 +11,15 @@ export default class IndexPage extends React.Component {
         console.log(ownerInfo)
     }
 
+    SendVote = async() => {
+        await sendVote()
+        console.log(sendVote)
+    }
+
+    viewResult = async() => {
+        const result =  await viewResult()
+        console.log(result)
+    }
     // 引数のアドレスをフォームで与えたい
     // これはvoters.jsに処理書いた方がいいな
     // setVoterAddr =  async(voterAddr) => {
@@ -38,6 +48,14 @@ export default class IndexPage extends React.Component {
 
             {/* <SetVoterAddr/> */}
             <CreateVote />
+
+            <button onClick={this.SendVote}>
+                Send Vote
+            </button>
+
+            <button onClick={this.viewResult}>
+                View Result
+            </button>
         </div>
       )
     }
