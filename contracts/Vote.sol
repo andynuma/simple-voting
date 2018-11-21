@@ -47,6 +47,8 @@ contract Vote is Owned{
     function createVote(bytes _vote) public {
         // require(checkVoterAddr(msg.sender) == true);
         require(voterAddressToCount[msg.sender] == 0);
+        //TODO:voterCountをインクリメントする必要ある
+        voterAddressToCount[msg.sender]++;
         voterToVote[msg.sender] = _vote;
 
         emit Create(msg.sender);
@@ -54,6 +56,7 @@ contract Vote is Owned{
 
     function sendVote() public{
         // require(checkVoterAddr(msg.sender) == true);
+        require(voterAddressToCount[msg.sender] == 1);
         bytes memory myVote = voterToVote[msg.sender];
         result.push(myVote);
 

@@ -1,6 +1,6 @@
 import { eth, getInstance } from "../web3/provider"
 import Vote from "../web3/artifacts/Vote.json"
-import {getOwnerInfo,SetVoterAddr, CreateVote,sendVote,viewResult} from "../web3/voters"
+import {getOwnerInfo,SetVoterAddr, CreateVote,sendVote,viewResult, ViewResult} from "../web3/voters"
 import { create } from "domain";
 
 export default class IndexPage extends React.Component {
@@ -19,24 +19,19 @@ export default class IndexPage extends React.Component {
     viewResult = async() => {
         const result =  await viewResult()
         console.log(result)
+        // console.log()
     }
-    // 引数のアドレスをフォームで与えたい
-    // これはvoters.jsに処理書いた方がいいな
-    // setVoterAddr =  async(voterAddr) => {
-    //     const tx =  await setVoterAddr(voterAddr)
-    //     console.log(tx)
-    // }
 
     async componentDidMount() {
-        // const addresses = await eth.getAccounts()
-        // const balance = await eth.getBalance(addresses[0])
-        // console.log(addresses)
-        // console.log(balance)
-        // console.log(Vote)
         const storage = await getInstance(Vote)
         console.log(storage)
         const ownerAddr = await storage.ownerAddr.call()
         console.log("Owner Address : ",ownerAddr)
+        const addresses = await eth.getAccounts()
+        console.log("Your address : ",addresses[0])
+        const balance = await eth.getBalance(addresses[0])
+        const etherValue = await web3.fromWei(balance, 'ether');
+        console.log("Your account balance :",etherValue,"ETH")
     }
 
     render() {
@@ -46,16 +41,16 @@ export default class IndexPage extends React.Component {
                 Get Owner address
             </button>
 
-            {/* <SetVoterAddr/> */}
             <CreateVote />
 
-            <button onClick={this.SendVote}>
-                Send Vote
+             <button onClick={this.SendVote}>
+                SendVote
             </button>
 
             <button onClick={this.viewResult}>
                 View Result
             </button>
+
         </div>
       )
     }
