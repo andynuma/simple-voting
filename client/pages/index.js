@@ -1,6 +1,6 @@
 import { eth, getInstance } from "../web3/provider"
 import Vote from "../web3/artifacts/Vote.json"
-import {getOwnerInfo,SetVoterAddr, CreateVote,sendVote,viewResult, ViewResult} from "../web3/voters"
+import {getOwnerInfo,CreateVote,sendVote,viewResult} from "../web3/voters"
 import { create } from "domain";
 
 export default class IndexPage extends React.Component {
@@ -16,10 +16,23 @@ export default class IndexPage extends React.Component {
         console.log(sendVote)
     }
 
-    viewResult = async() => {
-        const result =  await viewResult()
-        console.log(result)
-        // console.log()
+    // viewResult = async() => {
+    //     const result =  await viewResult()
+
+    // }
+    ResultList = async() => {
+        const results = await viewResult();
+        console.log(results)
+        const listItems = await results.map((number) =>
+        <li key={number.toString()}>
+            {number}
+        </li>
+        );
+        return (
+            this.render(
+                <ul>{listItems}</ul>
+            )
+        );
     }
 
     async componentDidMount() {
@@ -47,7 +60,7 @@ export default class IndexPage extends React.Component {
                 SendVote
             </button>
 
-            <button onClick={this.viewResult}>
+            <button onClick={this.ResultList}>
                 View Result
             </button>
 

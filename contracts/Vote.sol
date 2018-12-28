@@ -1,5 +1,5 @@
 pragma experimental ABIEncoderV2;
-pragma solidity ^0.4.19;
+pragma solidity >0.4.99 <0.6.0;
 
 import "./Owned.sol";
 
@@ -23,31 +23,16 @@ contract Vote is Owned{
     // send vote event
     event Send(address from);
 
-    constructor() {
+    constructor() public {
         ownerAddr = msg.sender;
     }
-
-    // function setVoterAddr(address _voterAddr) public onlyOwner{
-    //     voters.push(_voterAddr);
-    // }
-
-    // function checkVoterAddr(address _voterAddr) public returns(bool){
-    //     for(uint i = 0; i < voters.length; i++){
-    //         if(voters[i] == _voterAddr){
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
 
     function test(uint _testAddr) public returns(uint){
         return _testAddr;
     }
 
-    function createVote(bytes _vote) public {
-        // require(checkVoterAddr(msg.sender) == true);
+    function createVote(bytes memory _vote) public {
         require(voterAddressToCount[msg.sender] == 0);
-        //TODO:voterCountをインクリメントする必要ある
         voterAddressToCount[msg.sender]++;
         voterToVote[msg.sender] = _vote;
 
@@ -55,7 +40,6 @@ contract Vote is Owned{
     }
 
     function sendVote() public{
-        // require(checkVoterAddr(msg.sender) == true);
         require(voterAddressToCount[msg.sender] == 1);
         bytes memory myVote = voterToVote[msg.sender];
         result.push(myVote);
@@ -63,7 +47,7 @@ contract Vote is Owned{
         emit Send(msg.sender);
     }
 
-    function viewResult() view public returns(bytes[]){
+    function viewResult() view public returns(bytes[] memory){
         return result;
     }
 }

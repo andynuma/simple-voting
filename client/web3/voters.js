@@ -32,8 +32,13 @@ export const sendVote = async() => {
 export const viewResult = async() => {
   const storage = await getInstance(Vote)
   const addresses = await eth.getAccounts()
-  const result =  await storage.viewResult({from:addresses[0]})
-  return result
+  const results =  await storage.viewResult({from:addresses[0]})
+  const voting_result = results.map(result => {
+    <li>
+      {result}
+    </li>
+  })
+  // return result
 }
 
 export class CreateVote extends React.Component{
@@ -67,12 +72,10 @@ export class CreateVote extends React.Component{
   }
 }
 
-// ボタンを押したら，投票結果(result)を表示させたい
 // export class ViewResult extends React.Component{
 //   constructor(props){
 //     super(props);
-//     this.state = {value:["a"]};
-//     this.setResult = this.setResult.bind(this);
+//     this.state.ContractInstance = getInstance(Vote)
 //   }
 
 //   viewResult = async() => {
@@ -82,20 +85,12 @@ export class CreateVote extends React.Component{
 //     return result
 //   }
 
-//   setResult(){
-//     // this.setState.value = this.viewResult()
-//     this.setState({ value: this.viewResult() })
-//     console.log(this.state.value)
-//   }
 
 //   render(){
 //     return(
-//       <div>
-//         <button onClick={this.setResult}>
-//           View Result
-//         </button>
-
-//       </div>
+//       <button onClick={this.viewResult}>
+//         View Result
+//       </button>
 //     )
 //   }
 // }
