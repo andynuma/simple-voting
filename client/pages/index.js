@@ -1,39 +1,12 @@
 import { eth, getInstance } from "../web3/provider"
 import Vote from "../web3/artifacts/Vote.json"
-import {getOwnerInfo,CreateVote,sendVote,viewResult} from "../web3/voters"
+// import {getOwnerInfo,CreateVote,sendVote,viewResult} from "../web3/voters"
 import { create } from "domain";
+import { GetOwnerInfo } from "../web3/sendVote";
+import { SetUserInfo } from "../web3/createVote";
+import { ViewResult } from "../web3/viewResult";
 
 export default class IndexPage extends React.Component {
-
-    // Get Contract's Owner Address
-    logUser = async () => {
-        const ownerInfo = await getOwnerInfo()
-        console.log(ownerInfo)
-    }
-
-    SendVote = async() => {
-        await sendVote()
-        console.log(sendVote)
-    }
-
-    // viewResult = async() => {
-    //     const result =  await viewResult()
-
-    // }
-    ResultList = async() => {
-        const results = await viewResult();
-        console.log(results)
-        const listItems = await results.map((number) =>
-        <li key={number.toString()}>
-            {number}
-        </li>
-        );
-        return (
-            this.render(
-                <ul>{listItems}</ul>
-            )
-        );
-    }
 
     async componentDidMount() {
         const storage = await getInstance(Vote)
@@ -50,7 +23,10 @@ export default class IndexPage extends React.Component {
     render() {
       return (
         <div>
-            <button onClick={this.logUser}>
+            <GetOwnerInfo />
+            <SetUserInfo />
+            <ViewResult />
+            {/* <button onClick={this.logUser}>
                 Get Owner address
             </button>
 
@@ -62,7 +38,7 @@ export default class IndexPage extends React.Component {
 
             <button onClick={this.ResultList}>
                 View Result
-            </button>
+            </button> */}
 
         </div>
       )

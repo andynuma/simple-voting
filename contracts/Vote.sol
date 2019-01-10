@@ -9,13 +9,13 @@ contract Vote is Owned{
     address[] public voters;
 
     // voterAddr => vote text
-    mapping (address => bytes)  public voterToVote;
+    mapping (address => string)  public voterToVote;
 
     // voterAddr => vote count
     mapping (address => uint)  public voterAddressToCount;
 
     //voting result
-    bytes[] public result;
+    string[] public result;
 
     // create vote event
     event Create(address from);
@@ -27,12 +27,16 @@ contract Vote is Owned{
         ownerAddr = msg.sender;
     }
 
-    function test(uint _testAddr) public returns(uint){
-        return _testAddr;
+    // one address has one ballot.
+    modifier onceVote(address _user) {
+        //TODO:テスト用にrequireを外しているので戻す事
+        // require(voterAddressToCount[_user] == 0);
+        _;
     }
 
-    function createVote(bytes memory _vote) public {
-        require(voterAddressToCount[msg.sender] == 0);
+    function createVote(string memory _vote) public onceVote(msg.sender){
+        //TODO:テスト用にrequireを外しているので戻す事
+        // require(voterAddressToCount[msg.sender] == 0);
         voterAddressToCount[msg.sender]++;
         voterToVote[msg.sender] = _vote;
 
@@ -40,14 +44,16 @@ contract Vote is Owned{
     }
 
     function sendVote() public{
-        require(voterAddressToCount[msg.sender] == 1);
-        bytes memory myVote = voterToVote[msg.sender];
+        //TODO:テスト用にrequireを外しているので戻す事
+        // require(voterAddressToCount[msg.sender] == 1);
+        string memory myVote = voterToVote[msg.sender];
         result.push(myVote);
 
         emit Send(msg.sender);
     }
 
-    function viewResult() view public returns(bytes[] memory){
+    function viewResult() view public returns(string[] memory){
         return result;
     }
+
 }

@@ -38,6 +38,7 @@ export const viewResult = async() => {
       {result}
     </li>
   })
+  return <ul>{voting_result}</ul>
   // return result
 }
 

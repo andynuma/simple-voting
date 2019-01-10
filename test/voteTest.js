@@ -12,12 +12,12 @@ contract("Vote",(accounts) => {
         attacker =  await accounts[2]
     })
 
-    it("can set voter address",async() => {
+    it.skip("can set voter address",async() => {
         const tx = contractInstance.setVoterAddr(voter)
         assert.isOk(tx)
     })
 
-    it("only organizer can set voter address",async() => {
+    it.skip("only organizer can set voter address",async() => {
         let err = null
 
         try{
@@ -28,7 +28,7 @@ contract("Vote",(accounts) => {
         assert.ok(err instanceof Error)
     })
 
-    it("check voter address",async() => {
+    it.skip("check voter address",async() => {
         const tx1 = contractInstance.setVoterAddr(voter)
         assert.isOk(tx1)
         const tx2 = contractInstance.checkVoterAddr(voter)
@@ -46,17 +46,20 @@ contract("Vote",(accounts) => {
         assert.ok(err instanceof Error)
     })
 
-    it("creat vote",async() => {
-        const tx1 = await contractInstance.setVoterAddr(voter)
-        assert.isOk(tx1)
+    it("creat vote and send vote",async() => {
+        // const tx1 = await contractInstance.setVoterAddr(voter)
+        // assert.isOk(tx1)
 
         const tx2 = await contractInstance.createVote("0x11",{from:voter})
         assert.isOk(tx2)
+
+         const tx3 = await contractInstance.sendVote({from:voter})
+        assert.isOk(tx3)
     })
 
     it("only vote can create vote",async() => {
-        const tx1 = await contractInstance.setVoterAddr(voter)
-        assert.isOk(tx1)
+        // const tx1 = await contractInstance.setVoterAddr(voter)
+        // assert.isOk(tx1)
 
         let err = null
 
@@ -66,17 +69,6 @@ contract("Vote",(accounts) => {
             err = error
         }
         assert.ok(err instanceof Error)
-    })
-
-    it("can send vote",async() => {
-        const tx1 = await contractInstance.setVoterAddr(voter)
-        assert.isOk(tx1)
-
-        const tx2 = await contractInstance.createVote("0x11",{from:voter})
-        assert.isOk(tx2)
-
-        const tx3 = await contractInstance.sendVote({from:voter})
-        assert.isOk(tx3)
     })
 
     it("can't send vote from incorrect address",async() => {
@@ -90,12 +82,8 @@ contract("Vote",(accounts) => {
         assert.ok(err instanceof Error)
     })
 
-
-    it("view result",async() => {  
+    it("view result",async() => {
         const tx = await contractInstance.viewResult
         assert.isOk(tx)
-        
     })
-    
-    
 })
