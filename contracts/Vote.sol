@@ -8,6 +8,9 @@ contract Vote is Owned{
     // confirmed voters
     address[] public voters;
 
+    // candidate
+    string[] public candidates;
+
     // voterAddr => vote text
     mapping (address => string)  public voterToVote;
 
@@ -41,19 +44,18 @@ contract Vote is Owned{
         voterToVote[msg.sender] = _vote;
 
         emit Create(msg.sender);
-    }
 
-    function sendVote() public{
         //TODO:テスト用にrequireを外しているので戻す事
         // require(voterAddressToCount[msg.sender] == 1);
-        string memory myVote = voterToVote[msg.sender];
-        result.push(myVote);
+        // string memory myVote = voterToVote[msg.sender];
+        result.push(_vote);
 
         emit Send(msg.sender);
     }
 
     function viewResult() view public returns(string[] memory){
+        //TODO:テストのためにコメントアウトしているのを戻すこと
+        // require(voterAddressToCount[msg.sender] == 1, "You shold vote for view result.");
         return result;
     }
-
 }

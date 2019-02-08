@@ -1,46 +1,48 @@
-import { eth, getInstance } from "../web3/provider"
-import Vote from "../web3/artifacts/Vote.json"
-// import {getOwnerInfo,CreateVote,sendVote,viewResult} from "../web3/voters"
-import { create } from "domain";
-import { GetOwnerInfo } from "../web3/sendVote";
-import { SetUserInfo } from "../web3/createVote";
-import { ViewResult } from "../web3/viewResult";
+import Link from 'next/link'
 
-export default class IndexPage extends React.Component {
+export default class IndexPage extends React.Component{
+    render(){
+        return (
+            <div>
+                <p className="title">Voting </p>
+                <p>注意：Metamaskが入っていないブラウザでは動作しません．</p>
 
-    async componentDidMount() {
-        const storage = await getInstance(Vote)
-        console.log(storage)
-        const ownerAddr = await storage.ownerAddr.call()
-        console.log("Owner Address : ",ownerAddr)
-        const addresses = await eth.getAccounts()
-        console.log("Your address : ",addresses[0])
-        const balance = await eth.getBalance(addresses[0])
-        const etherValue = await web3.fromWei(balance, 'ether');
-        console.log("Your account balance :",etherValue,"ETH")
+                <Link href="./dapp">
+                    <buttom className="btn" >Voting Pageへ</buttom>
+                </Link>
+
+                <style jsx>{`
+                    .title {
+                        font-size:40px;
+                        width:100%;
+                    }
+
+                    .app{
+                        font-size:20px;
+                        padding: 8px 24px;
+                        display: inline-block;
+                    }
+
+                    div {
+                        text-align:center
+                    }
+
+                    .btn {
+                        margin-top:30px;
+                        padding: 8px 24px;
+                        color: white;
+                        display: inline-block;
+                        opacity: 0.8;
+                        border-radius: 4px;
+                        text-align: center;
+                        background-color: #239b76;
+                      }
+
+                    .btn:hover {
+                        opacity: 1;
+                    }
+                `}</style>
+            </div>
+        )
     }
-
-    render() {
-      return (
-        <div>
-            <GetOwnerInfo />
-            <SetUserInfo />
-            <ViewResult />
-            {/* <button onClick={this.logUser}>
-                Get Owner address
-            </button>
-
-            <CreateVote />
-
-             <button onClick={this.SendVote}>
-                SendVote
-            </button>
-
-            <button onClick={this.ResultList}>
-                View Result
-            </button> */}
-
-        </div>
-      )
-    }
-  }
+}
